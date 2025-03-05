@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人生ゲーム - 入力</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+
+        #inputArea {
+            margin-bottom: 20px;
+        }
+
+        #players {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .player {
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: calc(20% - 12px);
+            /* 5人で均等に表示 */
+            text-align: center;
+        }
+
+        .player.selected {
+            background-color: lightblue;
+            font-weight: bold;
+            border: 2px solid blue;
+        }
+
+        #historyTable {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        #historyTable th,
+        #historyTable td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+
+        /* 金額入力欄の上下矢印ボタンを非表示にする */
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        /* プレイヤー名入力欄 */
+        .playerNameInput {
+            width: 80px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>人生ゲーム - 入力</h1>
+
+    <!-- 人数選択用のセレクトボックス -->
+    <label for="playerNumberSelect">プレイヤー人数:</label>
+    <select id="playerNumberSelect">
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    </select>
+    <!-- プレイヤー名入力欄の追加 -->
+    <div id="playerNameInputs">
+        <label for="playerName1">プレイヤー1名:</label>
+        <input type="text" id="playerName1" class="playerNameInput" value="プレイヤー1">
+        <label for="playerName2">プレイヤー2名:</label>
+        <input type="text" id="playerName2" class="playerNameInput" value="プレイヤー2">
+        <label for="playerName3">プレイヤー3名:</label>
+        <input type="text" id="playerName3" class="playerNameInput" value="プレイヤー3">
+        <label for="playerName4">プレイヤー4名:</label>
+        <input type="text" id="playerName4" class="playerNameInput" value="プレイヤー4">
+        <label for="playerName5">プレイヤー5名:</label>
+        <input type="text" id="playerName5" class="playerNameInput" value="プレイヤー5">
+    </div>
+    <div id="players">
+    </div>
+
+    <div id="inputArea">
+        <label for="playerSelect"></label>
+        <select id="playerSelect">
+            <option value="1">プレイヤー1</option>
+            <option value="2">プレイヤー2</option>
+            <option value="3">プレイヤー3</option>
+            <option value="4">プレイヤー4</option>
+            <option value="5">プレイヤー5</option>
+        </select>
+
+        <label for="amountInput">金額:</label>
+        <input type="number" id="amountInput">
+
+        <button id="okButton">OK</button>
+    </div>
+
+
+    <h2>入力履歴</h2>
+    <table id="historyTable">
+        <thead>
+            <tr>
+                <th>no</th>
+                <th>name</th>
+                <th>money</th>
+                <th>削除</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

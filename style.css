@@ -1,0 +1,14 @@
+/* 既存のスタイル */
+.player {
+    border: 1px solid black;
+    padding: 10px;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+/* 追加：選択されたプレイヤーのスタイル */
+.player.selected {
+    background-color: lightblue; /* 背景色を薄い青色にする */
+    font-weight: bold; /* 文字を太字にする（任意） */
+    border: 2px solid blue; /* 枠を青くする(任意)*/
+}
