@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const playerNumberSelect = document.getElementById('playerNumberSelect');
     const playerNameInputs = document.getElementById('playerNameInputs');
     const playerNumberLabel = document.querySelector('label[for="playerNumberSelect"]');
+    
+    //プレイヤー名入力欄の要素を取得
+    const playerNameInputFields = document.querySelectorAll('.playerNameInput');
 
     playerSelect.style.display = 'none';
 
@@ -91,6 +94,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     amountInput.addEventListener('focus', () => {
         amountInput.value = "";
+    });
+    
+    // 各入力欄に対してイベントリスナーを設定
+    playerNameInputFields.forEach(input => {
+      input.addEventListener('focus', (event) => {
+        // フォーカスされたときに全選択状態にする
+        event.target.select();
+      });
     });
 
     playerNameInputs.addEventListener('input', (event) => {
