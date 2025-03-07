@@ -8,7 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const playerNumberSelect = document.getElementById('playerNumberSelect');
     const playerNameInputs = document.getElementById('playerNameInputs');
     const playerNumberLabel = document.querySelector('label[for="playerNumberSelect"]');
-    
+    //リセットボタン作成
+    const resetButton = document.createElement('button');
+    resetButton.textContent = 'リセット';
+    resetButton.id = 'resetButton';
+    document.body.insertBefore(resetButton, document.body.firstChild);
+
     //プレイヤー名入力欄の要素を取得
     const playerNameInputFields = document.querySelectorAll('.playerNameInput');
 
@@ -28,6 +33,56 @@ document.addEventListener('DOMContentLoaded', () => {
         5: "プレイヤー5"
     };
     let isHistoryCreated = false;
+
+    // ローカルストレージからデータを読み込む
+    function loadDataFromLocalStorage() {
+        const storedData = localStorage.getItem('gameData');
+        if (storedData) {
+            const data = JSON.parse(storedData);
+            numberOfPlayers = data.numberOfPlayers;
+            playerBalances = data.playerBalances;
+            history = data.history;
+            historyCount = data.historyCount;
+            selectedPlayer = data.selectedPlayer;
+            playerNames = data.playerNames;
+            isHistoryCreated = data.isHistoryCreated;
+        }
+    }
+
+    // ローカルストレージにデータを保存する
+    function saveDataToLocalStorage() {
+        const data = {
+            numberOfPlayers: numberOfPlayers,
+            playerBalances: playerBalances,
+            history: history,
+            historyCount: historyCount,
+            selectedPlayer: selectedPlayer,
+            playerNames: playerNames,
+            isHistoryCreated: isHistoryCreated,
+        };
+        localStorage.setItem('gameData', JSON.stringify(data));
+    }
+    //初期化処理
+    function resetGameData(){
+        // 確認メッセージを表示
+        if (confirm('本当にリセットしますか？')) {
+            localStorage.removeItem('gameData');
+            numberOfPlayers = 2;
+            playerBalances = {};
+            history = [];
+            historyCount = 0;
+            selectedPlayer = 1;
+            playerNames = {};
+            isHistoryCreated = false;
+
+            // デフォルトのプレイヤー名を再設定
+            for (let i = 1; i <= 5; i++) {
+                playerNames[i] = defaultPlayerNames[i];
+            }
+            createPlayerBalanceDivs();
+            updateHistoryTable();
+        }
+    }
 
     function toggleInitialSettingsVisibility() {
         if (isHistoryCreated) {
@@ -81,6 +136,8 @@ document.addEventListener('DOMContentLoaded', () => {
             player1Div.classList.add('selected');
         }
         toggleInitialSettingsVisibility();
+        // ローカルストレージに保存
+        saveDataToLocalStorage();
     }
 
     playerNumberSelect.addEventListener('change', () => {
@@ -90,18 +147,24 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let i = 1; i <= 5; i++) {
         playerNames[i] = defaultPlayerNames[i];
     }
+
+    // ローカルストレージからデータを読み込む
+    loadDataFromLocalStorage();
+    // 初期表示
     createPlayerBalanceDivs();
+    //履歴の更新処理
+    updateHistoryTable();
 
     amountInput.addEventListener('focus', () => {
         amountInput.value = "";
     });
-    
+
     // 各入力欄に対してイベントリスナーを設定
     playerNameInputFields.forEach(input => {
-      input.addEventListener('focus', (event) => {
-        // フォーカスされたときに全選択状態にする
-        event.target.select();
-      });
+        input.addEventListener('focus', (event) => {
+            // フォーカスされたときに全選択状態にする
+            event.target.select();
+        });
     });
 
     playerNameInputs.addEventListener('input', (event) => {
@@ -168,6 +231,8 @@ document.addEventListener('DOMContentLoaded', () => {
             amountInput.value = "";
             amountInput.focus();
         }
+        // ローカルストレージに保存
+        saveDataToLocalStorage();
     });
 
     function updateHistoryTable() {
@@ -200,12 +265,16 @@ document.addEventListener('DOMContentLoaded', () => {
                         isHistoryCreated = false;
                     }
                     toggleInitialSettingsVisibility();
+                    // ローカルストレージに保存
+                    saveDataToLocalStorage();
                 }
             });
             deleteCell.appendChild(deleteButton);
             toggleInitialSettingsVisibility();
         });
         toggleInitialSettingsVisibility();
+        // ローカルストレージに保存
+        saveDataToLocalStorage();
     }
     playerBalanceArea.addEventListener('click', (event) => {
         const clickedPlayerDiv = event.target.closest('.player');
@@ -215,6 +284,12 @@ document.addEventListener('DOMContentLoaded', () => {
             clickedPlayerDiv.classList.add('selected');
             amountInput.focus();
             selectedPlayer = parseInt(clickedPlayerDiv.dataset.playerNumber);
+            // ローカルストレージに保存
+            saveDataToLocalStorage();
         }
+    });
+    // リセットボタンのイベントリスナー
+    resetButton.addEventListener('click', () => {
+        resetGameData();
     });
 });
