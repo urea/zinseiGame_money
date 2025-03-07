@@ -16,6 +16,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //プレイヤー名入力欄の要素を取得
     const playerNameInputFields = document.querySelectorAll('.playerNameInput');
+    //プレイヤー入力エリア
+    const playerInputAreas = {
+        '2': [document.getElementById('player1InputArea'), document.getElementById('player2InputArea')],
+        '3': [document.getElementById('player1InputArea'), document.getElementById('player2InputArea'), document.getElementById('player3InputArea')],
+        '4': [document.getElementById('player1InputArea'), document.getElementById('player2InputArea'), document.getElementById('player3InputArea'), document.getElementById('player4InputArea')],
+        '5': [document.getElementById('player1InputArea'), document.getElementById('player2InputArea'), document.getElementById('player3InputArea'), document.getElementById('player4InputArea'), document.getElementById('player5InputArea')],
+    };
 
     playerSelect.style.display = 'none';
 
@@ -46,6 +53,11 @@ document.addEventListener('DOMContentLoaded', () => {
             selectedPlayer = data.selectedPlayer;
             playerNames = data.playerNames;
             isHistoryCreated = data.isHistoryCreated;
+        } else {
+            // ローカルストレージにデータがない場合、playerNamesをデフォルト値で初期化
+            for (let i = 1; i <= 5; i++) {
+                playerNames[i] = defaultPlayerNames[i];
+            }
         }
     }
 
@@ -63,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('gameData', JSON.stringify(data));
     }
     //初期化処理
-    function resetGameData(){
+    function resetGameData() {
         // 確認メッセージを表示
         if (confirm('本当にリセットしますか？')) {
             localStorage.removeItem('gameData');
@@ -81,6 +93,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             createPlayerBalanceDivs();
             updateHistoryTable();
+            hideShowPlayerNameInputs(numberOfPlayers); //追加
+
+            // プレイヤー人数のセレクトボックスを「2」に設定
+            playerNumberSelect.value = "2";
         }
     }
 
@@ -94,6 +110,17 @@ document.addEventListener('DOMContentLoaded', () => {
             playerNumberLabel.style.display = 'block';
             playerNameInputs.style.display = 'block';
         }
+    }
+    //プレイヤー名入力欄の表示・非表示
+    function hideShowPlayerNameInputs(playerNumber) {
+        for (const key in playerInputAreas) {
+            playerInputAreas[key].forEach(area => {
+                area.hidden = true;
+            });
+        }
+        playerInputAreas[playerNumber].forEach(area => {
+            area.hidden = false;
+        });
     }
 
     function createPlayerBalanceDivs() {
@@ -143,17 +170,17 @@ document.addEventListener('DOMContentLoaded', () => {
     playerNumberSelect.addEventListener('change', () => {
         numberOfPlayers = parseInt(playerNumberSelect.value);
         createPlayerBalanceDivs();
+        hideShowPlayerNameInputs(numberOfPlayers); //追加
     });
-    for (let i = 1; i <= 5; i++) {
-        playerNames[i] = defaultPlayerNames[i];
-    }
-
+    // 初期化処理
     // ローカルストレージからデータを読み込む
     loadDataFromLocalStorage();
     // 初期表示
     createPlayerBalanceDivs();
     //履歴の更新処理
     updateHistoryTable();
+    //初期化
+    hideShowPlayerNameInputs(numberOfPlayers);
 
     amountInput.addEventListener('focus', () => {
         amountInput.value = "";

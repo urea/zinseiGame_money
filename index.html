@@ -60,7 +60,24 @@
 
         /* プレイヤー名入力欄 */
         .playerNameInput {
-            width: 80px;
+            width: 100px;
+            /*追加*/
+        }
+
+        /* 追加：プレイヤー名入力欄とラベルを改行 */
+        #playerNameInputs label {
+            margin-bottom: 10px;
+            /* ラベルの上に余白を作る */
+        }
+
+        #playerNameInputs input {
+            margin-top: 10px;
+            /* 入力欄の上に余白を作る */
+        }
+
+        /*playerNameInputsにマージンを追加する*/
+        #playerNameInputs {
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -78,16 +95,26 @@
     </select>
     <!-- プレイヤー名入力欄の追加 -->
     <div id="playerNameInputs">
-        <label for="playerName1">プレイヤー1名:</label>
-        <input type="text" id="playerName1" class="playerNameInput" value="プレイヤー1">
-        <label for="playerName2">プレイヤー2名:</label>
-        <input type="text" id="playerName2" class="playerNameInput" value="プレイヤー2">
-        <label for="playerName3">プレイヤー3名:</label>
-        <input type="text" id="playerName3" class="playerNameInput" value="プレイヤー3">
-        <label for="playerName4">プレイヤー4名:</label>
-        <input type="text" id="playerName4" class="playerNameInput" value="プレイヤー4">
-        <label for="playerName5">プレイヤー5名:</label>
-        <input type="text" id="playerName5" class="playerNameInput" value="プレイヤー5">
+        <div id="player1InputArea">
+            <label for="playerName1">プレイヤー1名:</label>
+            <input type="text" id="playerName1" class="playerNameInput" value="プレイヤー1"><br>
+        </div>
+        <div id="player2InputArea">
+            <label for="playerName2">プレイヤー2名:</label>
+            <input type="text" id="playerName2" class="playerNameInput" value="プレイヤー2"><br>
+        </div>
+        <div id="player3InputArea" hidden>
+            <label for="playerName3">プレイヤー3名:</label>
+            <input type="text" id="playerName3" class="playerNameInput" value="プレイヤー3"><br>
+        </div>
+        <div id="player4InputArea" hidden>
+            <label for="playerName4">プレイヤー4名:</label>
+            <input type="text" id="playerName4" class="playerNameInput" value="プレイヤー4"><br>
+        </div>
+        <div id="player5InputArea" hidden>
+            <label for="playerName5">プレイヤー5名:</label>
+            <input type="text" id="playerName5" class="playerNameInput" value="プレイヤー5"><br>
+        </div>
     </div>
     <div id="players">
     </div>
